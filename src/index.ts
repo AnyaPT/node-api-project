@@ -8,34 +8,45 @@ const cors = require('cors');
 app.use(cors({
   origin: '*'
 }));
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+var jsonParser = bodyParser.json()
 app.use(express.json())
 
-let t2 = [
+let task = [
 {
     id: 1,
     "name": "Walk the dog on Monday",
+    "num": "1",
   },
   {
     id: 2,
     "name": "Do the Laundry on",
+    "num": "2",
   },
 ];
     
 //create
-/*
-app.post('/tasks', (req,res) => {
+
+app.post('/addTask', jsonParser, (req,res) => {
+
+  console.log('Got body:', req.body);
     const newTask ={
         name: String(req.body.name),
-        id: Date.now()
+        num: String(req.body.num),
+        id: (req.body.id),
     }
-    tasks.push(newTask);
-    res.json(newTask);
+    task.push(newTask);
+    
+    res.sendStatus(200);
 });
-*/
+
 //read
-app.get ("/t2", (req, res) => {
+app.get ("/task", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(t2);
+    res.send(task);
 });
 
 

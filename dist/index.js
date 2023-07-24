@@ -12,32 +12,37 @@ const cors = require('cors');
 app.use(cors({
     origin: '*'
 }));
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+var jsonParser = bodyParser.json();
 app.use(express_1.default.json());
-let t2 = [
+let task = [
     {
         id: 1,
         "name": "Walk the dog on Monday",
+        "num": "1",
     },
     {
         id: 2,
-        "name": "Do the Laundry on Tuesday",
+        "name": "Do the Laundry on",
+        "num": "2",
     },
 ];
 //create
-/*
-app.post('/tasks', (req,res) => {
-    const newTask ={
+app.post('/addTask', jsonParser, (req, res) => {
+    console.log('Got body:', req.body);
+    const newTask = {
         name: String(req.body.name),
-        id: Date.now()
-    }
-    tasks.push(newTask);
-    res.json(newTask);
+        num: String(req.body.num),
+        id: (req.body.id),
+    };
+    task.push(newTask);
+    res.sendStatus(200);
 });
-*/
 //read
-app.get("/t2", (req, res) => {
+app.get("/task", (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(t2);
+    res.send(task);
 });
 /*
 app.get("/tasks/:id", function(req, res) {
